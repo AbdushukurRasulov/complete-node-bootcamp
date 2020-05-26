@@ -1,27 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const { getAllUsers, getUser, createUser, updateUser, deleteUser, updateMe, deleteMe } = require('../controllers/userController');
+const { getAllUsers, getUser, createUser, updateUser, deleteUser, updateMe, deleteMe, getMe } = require('../controllers/userController');
 const { signup, login, protect ,restrictTo, forgotPassword, resetPassword, updatePassword } = require('../controllers/authController');
 
+router
+  .post('/signup', signup)
+  .post('/login', login)
+  .post('/forgotPassword', forgotPassword)
+  .patch('/resetPassword/:token', resetPassword)
 
-router.post('/signup', signup);
-router.post('/login', login);
+router.use(protect);
 
-router.post('/forgotPassword', forgotPassword);
-router.patch('/resetPassword/:token', resetPassword);
-router.patch('/updateMypassword', protect, updatePassword);
-
-
-router.patch('/updateMe', protect, updateMe );
-router.delete('/deleteMe', protect, deleteMe);
-
+router
+  .get('/me', getMe, getUser)
+  .patch('/updateMe', updateMe)
+  .patch('/updateMypassword', updatePassword)
+  .delete('/deleteMe', deleteMe);
 
 router
   .get('/', getAllUsers)
   .post('/', createUser)
   .get('/:id', getUser)
   .patch('/:id', updateUser)
-  .delete('/:id', protect, restrictTo('admin'), deleteUser);
-
+  .delete('/:id', restrictTo('admin'), deleteUser);
 
 module.exports = router;

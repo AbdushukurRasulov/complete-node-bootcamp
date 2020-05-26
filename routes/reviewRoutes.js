@@ -4,11 +4,11 @@ const router = express.Router({mergeParams: true});
 const { protect, restrictTo } = require('./../controllers/authController');
 const { getAllReview, getReview, createReview, deleteReview, updateReview, setTourUserIds} = require('../controllers/reviewController');
 
-
+router.use(protect);
 
 router
   .get('/', getAllReview)
-  .post('/', protect, restrictTo('user'), setTourUserIds, createReview);
+  .post('/', restrictTo('admin', 'user'), setTourUserIds, createReview);
 
 router.route('/:id')
   .get(getReview)

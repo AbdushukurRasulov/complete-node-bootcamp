@@ -10,17 +10,15 @@ router.use('/:tourId/reviews', reviewRouter);
 router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
 
 router.route('/tours-stat').get(getTourStats);
-router.route('/monthly-plan/:year').get(getMonthlyPlan);
+router.route('/monthly-plan/:year').get(protect,getMonthlyPlan);
 
 router.route('/')
-  .get(protect, getAllTours)
+  .get(getAllTours)
   .post(protect, createTour)
 
 router.route('/:id')
   .get(protect, getTour)
   .patch(protect, updateTour)
   .delete(protect, deleteTour)
-
-// router.post('/:tourId/reviews', protect, restrictTo('user'), createReview);
-
+ 
 module.exports = router;

@@ -47,6 +47,7 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+// Bcrypt password
 userSchema.pre('save', async function (next) {
   // Only run this function if passward was actually modified
   if (!this.isModified('password')) return next();

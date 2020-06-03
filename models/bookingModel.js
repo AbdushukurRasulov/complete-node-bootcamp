@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const bookingSchema = mongoose.Schema({
   tour: {
     type: mongoose.Schema.ObjectId,
-    ref: 'tour'
+    ref: 'Tour'
   },
   user: {
     type: mongoose.Schema.ObjectId,
-    ref: 'user'
+    ref: 'User'
   },
   price: {
     type: Number
@@ -27,8 +27,10 @@ bookingSchema.pre(/^find/, function (next) {
     path: 'tour',
     select: 'name'
   });
+  
+  next()
 });
 
-const Booking = mongoose.model('Booking', bookingSchema);
+const Booking = mongoose.model('bookings', bookingSchema);
 
 module.exports = Booking;

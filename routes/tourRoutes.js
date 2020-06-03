@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { protect, restrictTo } = require('./../controllers/authController');
-const { getAllTours, getTour, createTour, updateTour, deleteTour, getTourStats, aliasTopTours, getMonthlyPlan, getToursWithin, getDistances } = require('../controllers/tourController');
+const { getAllTours, getTour, createTour, updateTour, deleteTour, getTourStats, aliasTopTours, getMonthlyPlan, getToursWithin, getDistances, uploadTourImages, resizeTourImages } = require('../controllers/tourController');
 const reviewRouter = require('./reviewRoutes');
 
 
@@ -20,7 +20,7 @@ router.route('/')
 
 router.route('/:id')
   .get(protect, getTour)
-  .patch(protect, updateTour)
+  .patch(protect, uploadTourImages, resizeTourImages, updateTour )
   .delete(protect, deleteTour)
  
 module.exports = router;
